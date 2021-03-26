@@ -1,4 +1,4 @@
-const Header = (title, date, temp) => {
+// const Header = (title, date, temp) => {
   // TASK 1
   // ---------------------
   // Implement this function taking `title`, `date` and `temp` as its 3 args and returning the markup below.
@@ -12,24 +12,25 @@ const Header = (title, date, temp) => {
   //  </div>
   //
 
-  const Header = document.createElement('div');
-  Header.classList.add('Header');
+  function Header() {
+  const mainHeader = document.createElement('div');
+  mainHeader.classList.add('Header');
 
-  const span1 = document.createElement('span');
-  span1.classList.add('date');
-  span1.textContent = date;
-  Header.appendChild(span1);
+  const headerDate = document.createElement('span');
+  headerDate.classList.add('date');
+  headerDate.textContent = `${date}`;
+  mainHeader.appendChild(headerDate);
 
-  const h1 = document.createElement('h1');
-  h1.textContent = title;
-  Header.appendChild(h1);
+  const headerTitle = document.createElement('h1');
+  headerTitle.textContent = `${title}`;
+  mainHeader.appendChild(headerTitle);
 
-  const span2 = document.createElement('span');
-  span2.classList.add('temp');
-  span2.textContent = temp;
-  Header.appendChild(span2);
+  const headerTemp = document.createElement('span');
+  headerTemp.classList.add('temp');
+  headerTemp.textContent = `${temp}`;
+  mainHeader.appendChild(headerTemp);
 
-  return Header
+  return mainHeader;
 }
 
 const headerAppender = (selector) => {
@@ -40,8 +41,9 @@ const headerAppender = (selector) => {
   // It should append the header to the element in the DOM that matches the given selector.
   //
 
-  const headerContent = document.querySelector('.header-container');
-  headerContent.appendChild(Header('Good Day!', 'Mar 21, 2021', '62 degrees F'));
+  document
+    .querySelector(selector)
+    .append(Header('Lambda Times', 'Mar 21, 2021', '62 degrees F'));
 }
 
 export { Header, headerAppender }

@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { response } from 'msw/lib/types';
+import axios from "axios";
 
 const Card = (article) => {
   // TASK 5
@@ -21,41 +20,35 @@ const Card = (article) => {
   // </div>
   //
 
-const card = document.createElement('div');
-card.classList.add('card');
+  const cardDiv = document.createElement('div')
+  const headlineDiv = document.createElement('div')
+  const authorDiv = document.createElement('div')
+  const imgContainer = document.createElement('div')
+  const img = document.createElement('img')
+  const authorName = document.createElement('span')
 
-const headLine = document.createElement('div');
-headLine.classList.add('title');
-headLine.textContent = `${data.headline}`;
-card.appendChild(headLine);
+  cardDiv.appendChild(headlineDiv)
+  cardDiv.appendChild(authorDiv)
+  authorDiv.appendChild(imgContainer)
+  imgContainer.appendChild(img)
+  authorDiv.appendChild(authorName)
 
-const author = document.createElement('div');
-author.classList.add('author');
-card.appendChild(author);
+  cardDiv.classList.add('card')
+  headlineDiv.classList.add('headline')
+  authorDiv.classList.add('author')
+  imgContainer.classList.add('img-container')
 
-const imgContainer = document.createElement('div');
-imgContainer.classList.add('img-container');
-author.appendChild(imgContainer);
+  headlineDiv.textContent = article.headline
+  authorName.textContent = `By ${article.authorName}`
 
-const authorImg = document.createElement('img');
-authorImg.setAttribute('src', data.authorPhoto);
-imgContainer.appendChild(authorImg);
+  img.setAttribute('src', `${article.authorPhoto}`)
 
-const authorSpan = document.createElement('span');
-authorSpan.textContent = `By ${data.authorName}`;
-author.appendChild(authorSpan);
+  cardDiv.addEventListener('click', event => {
+    console.log(headlineDiv.textContent);
+  })
 
-function ELP(event){
-  console.log(event);
-  console.log(`${data.headline}`)
-};
-
-card.addEventListener('click', ELP);
-
-return card
+  return cardDiv
 }
-
-const cardAppender = (selector) => {
   // TASK 6
   // ---------------------
   // Implement this function that takes a css selector as its only argument.
@@ -65,18 +58,22 @@ const cardAppender = (selector) => {
   // Append each card to the element in the DOM that matches the selector passed to the function.
   //
 
-  const cards = document.querySelector('.cards-container');
+  const cardAppender = (selector) => {
+    const topicsArr = ['javascript', 'bootstrap', 'technology', 'jquery', 'node']
+    axios
+      .get('https://lambda-times-api.herokuapp.com/articles')
+      .then ((res) => {
+        console.log(res)
+        topicsArr.forEach((topic) => {
+          res.data.articles[topic].forEach((element) => {
+            const newDiv = Card(element)
+          document.querySelector(selector).appendChild(newDiv)
+          })
+        })
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
 
-  axios.get('https://lambda-times-api.herokuapp.com/articles')
-    .then((res) => {
-      console.log(response.data.articles)
-    })
-    .catch((err) => {
-      console.log('ERROR!')
-    })
-    .finally(() => {
-      console.log('FINISHED!')
-    })
-}
-
-export { Card, cardAppender }
+  export { Card, cardAppender }

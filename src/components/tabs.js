@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 const Tabs = (topics) => {
   // TASK 3
   // ---------------------
@@ -16,19 +14,19 @@ const Tabs = (topics) => {
   // </div>
   //
 
-  const topicDiv = document.createElement('div');
-  topicDiv.classList.add('topics');
+  // const topicDiv = document.createElement('div');
+  // topicDiv.classList.add('topics');
 
-  topics.forEach((topic) => {
-    const tabs = document.createElement('div');
-    tabs.classList.add('tabs');
-    tabs.textContent = topic;
-    topicDiv.appendChild(tabs);
-  });
-  return topicDiv;
-}
+  // topics.forEach((topic) => {
+  //   const tabs = document.createElement('div');
+  //   tabs.classList.add('tabs');
+  //   tabs.textContent = topic;
+  //   topicDiv.appendChild(tabs);
+  // });
+  // return topicDiv;
 
-const tabsAppender = (selector) => {
+
+// const tabsAppender = (selector) => {
   // TASK 4
   // ---------------------
   // Implement this function which takes a css selector as its only argument.
@@ -37,16 +35,42 @@ const tabsAppender = (selector) => {
   // Append the tabs to the element in the DOM that matches the selector passed to the function.
   //
 
-  axios.get('https://lambda-times-api.herokuapp.com/topics')
-    .then((res) =>{
-      document.querySelector(selector).appendChild(Tabs(res.data.topics))
-    })
-    .catch((err) => {
-      console.log('error')
-    })
-    .finally(() => {
-      console.log('Finished')
+//   axios.get('https://lambda-times-api.herokuapp.com/topics')
+//     .then((res) =>{
+//       document.querySelector(selector).appendChild(Tabs(res.data.topics))
+//     })
+//     .catch((err) => {
+//       console.log('error')
+//     })
+//     .finally(() => {
+//       console.log('Finished')
+//     })
+// }
+
+// export { Tabs, tabsAppender }
+
+const tabs = document.createElement('div');
+tabs.classList.add('topics');
+
+topics.forEach((element) => {
+  const tab = document.createElement('div')
+  tab.classList.add('tab')
+  tab.textContent = element
+  tabs.append(tab)
+})
+return tabs
+}
+
+const tabsAppender = (selector) => {
+  axios
+    .get(`https://lambda-times-api.herokuapp.com/topics`)
+    .then((res) => {
+      const arr = res.data.topics
+      document.querySelector(selector).appendChild(Tabs(arr))
+      .catch((err) => {
+        console.log(err);
+      })
     })
 }
 
-export { Tabs, tabsAppender }
+export{ Tabs, tabsAppender }
